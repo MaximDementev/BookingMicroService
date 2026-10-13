@@ -16,6 +16,12 @@ internal sealed class ETicketConfiguration : IEntityTypeConfiguration<ETicket>
             .IsRequired();
 
         builder.HasIndex(x => x.TicketNumber).IsUnique();
+        builder.HasIndex(x => x.PassengerId);
+
+        builder.Property(x => x.PassengerId).IsRequired();
+        builder.Property(x => x.PassengerFirstName).HasMaxLength(150).IsRequired();
+        builder.Property(x => x.PassengerLastName).HasMaxLength(150).IsRequired();
+        builder.Property(x => x.PassengerMiddleName).HasMaxLength(150);
 
         builder.Property(x => x.ETicketStatus)
             .HasConversion<string>()
@@ -32,8 +38,10 @@ internal sealed class ETicketConfiguration : IEntityTypeConfiguration<ETicket>
         });
         builder.Navigation(x => x.Price).IsRequired();
 
-        // Passenger and Route are existing domain relationships; EF maps their related entities too.
-        builder.HasOne(x => x.Passenger).WithMany().IsRequired();
-        builder.HasMany(x => x.Route).WithMany();
+        // Segments are owned by this ticket and stored locally; external IDs inside them are scalar values.
+        builder.HasMany(x => x.Segments)
+            .WithOne()
+            .HasForeignKey("ETicketId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
