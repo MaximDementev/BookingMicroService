@@ -11,6 +11,7 @@ internal sealed class ETicketSegmentConfiguration : IEntityTypeConfiguration<ETi
         builder.ToTable("eticket_segments");
         builder.HasKey(x => x.Id);
 
+        builder.Property<long>("ETicketId").IsRequired();
         builder.Property(x => x.SegmentOrder).IsRequired();
         builder.HasIndex("ETicketId", nameof(ETicketSegment.SegmentOrder)).IsUnique();
 
