@@ -1,40 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
-namespace BookingMS.Contracts.Search.V1
-{
-    /// <summary>
-    /// Событие, публикуемое сервисом Search, когда предложения успешно найдены.
-    /// </summary>
-    public record SearchOfferResponseEvent(
-        Guid CorrelationId,
-        List<SearchOfferDto> Offers
-    );
+namespace BookingMS.Contracts.Search.V1;
 
-    // Упрощенные структуры данных (DTO) для транспортировки через брокер
-    public record SearchOfferDto(
-        string ProviderOfferId,
-        AirlineDto Airline,
-        RouteDto Route,
-        int PassengersCount,
-        PriceDto TotalPrice,
-        Currency Currency,
-        DateTime? ExpiresAt
-    );
-
-    public record AirlineDto(
-        string Code, // Например, "SU"
-        string Name  // Например, "Aeroflot"
-    );
-
-    public record RouteDto(
-        string Origin,      // "VKO"
-        string Destination, // "AER"
-        TimeSpan Duration   // Длительность перелета
-    );
-
-    public record PriceDto(
-        decimal Amount,
-        Currency Currency
-    );
-}
+/// <summary>
+/// Event published when the search operation fails.
+/// </summary>
+public sealed record SearchOfferFailedEvent(
+    Guid CorrelationId,
+    string ErrorCode,
+    string ErrorMessage);

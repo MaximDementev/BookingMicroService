@@ -1,16 +1,14 @@
-﻿using System;
+using System;
 
-namespace BookingMS.Contracts.Search.V1
-{
-    /// <summary>
-    /// Асинхронная команда для запуска процесса поиска предложений.
-    /// </summary>
-    public record SearchOfferCommand(
-        Guid CorrelationId,       // ID сквозной цепочки логов (Saga Id)
-        string DepartureAirport,  // Например, "VKO"
-        string ArrivalAirport,    // Например, "AER"
-        DateTime DepartureDate,
-        int PassengersCount,
-        Currency PreferredCurrency
-    );
-}
+namespace BookingMS.Contracts.Search.V1;
+
+/// <summary>
+/// Asynchronous command that starts a search for flight offers.
+/// </summary>
+public sealed record SearchOfferCommand(
+    Guid CorrelationId,
+    string DepartureAirport,
+    string ArrivalAirport,
+    DateTime DepartureDate,
+    int PassengersCount,
+    string PreferredCurrency);
