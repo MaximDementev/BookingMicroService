@@ -15,13 +15,16 @@ builder.Services.AddBookingPersistence(
 Store the connection string in user-secrets or environment variables in deployed environments.
 For local development, set `ConnectionStrings:BookingDatabase` to a PostgreSQL connection string.
 
-Create and apply the initial migration from the solution directory:
+## Migrations
+
+The design-time factory reads `BOOKING_DATABASE_CONNECTION_STRING`. Set it before running EF tooling.
+The fallback connection string is for local development only; change it for your local PostgreSQL credentials.
 
 ```bash
 dotnet tool install --global dotnet-ef --version 8.0.11
-dotnet ef migrations add InitialBookingSchema --project Infrastructure --startup-project API --output-dir Persistence/Migrations
-dotnet ef database update --project Infrastructure --startup-project API
+dotnet ef migrations add InitialBookingSchema --project Infrastructure --startup-project Infrastructure --output-dir Persistence/Migrations
+dotnet ef database update --project Infrastructure --startup-project Infrastructure
 ```
 
-The API startup project must configure the same connection string and reference Infrastructure.
+The context persists bookings and e-tickets, with the associated Passenger and Route relationship graph mapped by EF conventions/configuration.
 Do not call `EnsureCreated()` in a migrations-based application.
