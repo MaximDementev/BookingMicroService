@@ -1,0 +1,6 @@
+<Project>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)legal\EULA.txt" Link="EULA.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)legal\NOTICE.txt" Link="NOTICE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

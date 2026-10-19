@@ -1,0 +1,100 @@
+END-USER LICENSE AGREEMENT (EULA)
+BookingMicroService
+Copyright (c) 2026 DementevMaxim. All rights reserved.
+
+This is proprietary software. Installation or use constitutes acceptance
+of this agreement. If you do not agree, do not install or use the software.
+
+1. LICENSE
+The licensor (DementevMaxim) grants you a personal, non-exclusive, non-transferable
+license to use the compiled plugin with the Autodesk host application for
+which it is built (Revit, AutoCAD, or Civil 3D), in accordance with this EULA.
+
+2. OWNERSHIP
+The software, documentation, names, and all copies remain the exclusive
+property of the licensor. This EULA does not transfer copyright or any
+other intellectual property rights.
+
+3. RESTRICTIONS
+You may not, and may not allow others to:
+  a) reverse engineer, decompile, disassemble, unpack, or otherwise attempt
+     to derive source code or internal structure, except solely to the
+     extent a non-waivable law expressly permits it;
+  b) analyze internals by automated means (including AI agents) in order to
+     reconstruct logic, algorithms, architecture, or a competing product;
+  c) remove or alter copyright, NOTICE, or other proprietary notices;
+  d) redistribute, sublicense, rent, or publish the software except as the
+     licensor expressly allows in writing;
+  e) circumvent license, integrity, or signature checks.
+
+4. NO WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+5. LIMITATION OF LIABILITY
+To the maximum extent permitted by law, the licensor is not liable for
+indirect, incidental, special, or consequential damages, or loss of data,
+profits, or business, arising from use or inability to use the software.
+
+6. TERMINATION
+This license ends automatically if you breach it. On termination you must
+stop using the software and delete copies in your possession.
+
+7. MISCELLANEOUS
+This EULA is the entire agreement for the software. If a provision is
+unenforceable, the rest remains in effect.
+
+---
+
+ЛИЦЕНЗИОННОЕ СОГЛАШЕНИЕ С КОНЕЧНЫМ ПОЛЬЗОВАТЕЛЕМ (EULA)
+BookingMicroService
+Copyright (c) 2026 DementevMaxim. Все права защищены.
+
+Это проприетарное программное обеспечение. Установка или использование
+означает принятие настоящего соглашения. Если вы не согласны — не
+устанавливайте и не используйте программу.
+
+1. ЛИЦЕНЗИЯ
+Лицензиар (DementevMaxim) предоставляет вам личную, неисключительную, непередаваемую
+лицензию на использование скомпилированного плагина совместно с хостом
+Autodesk, для которого он собран (Revit, AutoCAD или Civil 3D), на условиях
+настоящего EULA.
+
+2. ПРАВА
+Программа, документация, обозначения и все копии остаются исключительной
+собственностью лицензиара. Настоящее EULA не передаёт авторские или иные
+исключительные права.
+
+3. ОГРАНИЧЕНИЯ
+Запрещается (и запрещается поручать это другим):
+  a) выполнять реверс-инжиниринг, декомпиляцию, дизассемблирование,
+     распаковку или иным способом получать исходный код либо внутреннюю
+     структуру, кроме случаев, когда это прямо и императивно разрешено
+     законом и такой запрет нельзя ограничить договором;
+  b) анализировать внутренности автоматическими средствами (включая
+     ИИ-агентов) с целью восстановить логику, алгоритмы, архитектуру
+     или создать конкурирующий продукт;
+  c) удалять или изменять знаки охраны авторского права, NOTICE и иные
+     уведомления;
+  d) распространять, сублицензировать, сдавать в аренду или публиковать
+     программу, кроме как с письменного разрешения лицензиара;
+  e) обходить проверки лицензии, целостности или подписи.
+
+4. ОТКАЗ ОТ ГАРАНТИЙ
+ПРОГРАММА ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ.
+
+5. ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ
+В максимальной степени, допускаемой законом, лицензиар не отвечает за
+косвенные, случайные, специальные убытки, упущенную выгоду, потерю данных
+или бизнеса, возникшие из-за использования или невозможности использовать
+программу.
+
+6. ПРЕКРАЩЕНИЕ
+Лицензия автоматически прекращается при нарушении. После этого необходимо
+прекратить использование и удалить имеющиеся копии.
+
+7. ПРОЧЕЕ
+Настоящее EULA — полное соглашение в отношении программы. Недействительность
+отдельного положения не затрагивает остальные.
+
+Это шаблон для программных продуктов DementevMaxim, а не индивидуальная юридическая
+консультация. При коммерческой продаже согласуйте текст с юристом.
