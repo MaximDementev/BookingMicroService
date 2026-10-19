@@ -17,8 +17,9 @@ public sealed class BookingDbContextFactory : IDesignTimeDbContextFactory<Bookin
 {
     public BookingDbContext CreateDbContext(string[] args)
     {
-        var connectionString = Environment.GetEnvironmentVariable("BOOKING_DATABASE_CONNECTION_STRING")
-            ?? "Host=localhost;Port=5432;Database=booking;Username=postgres;Password=postgres";
+        var connectionString = Environment.GetEnvironmentVariable("BOOKING_DATABASE_CONNECTION_STRING");
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("Set BOOKING_DATABASE_CONNECTION_STRING; database credentials are never stored in source code.");
 
         var options = new DbContextOptionsBuilder<BookingDbContext>()
             .UseNpgsql(connectionString)

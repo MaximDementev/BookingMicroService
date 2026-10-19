@@ -1,37 +1,57 @@
-# PostgreSQL persistence
+# Booking PostgreSQL persistence
 
-The Infrastructure project uses EF Core 8 with Npgsql, matching the solution's .NET 8 target.
+Версия: 2.0.0. Автор: DementevMaxim.
+Дата последнего изменения: 2026-10-19.
 
-Register the context in the API composition root:
+EF Core/Npgsql 8.0.11 уже используются проектом; новые NuGet-пакеты не добавлены.
+Единый контекст: BookingDbContext. Конфигурация: BookingModelConfiguration.
+Сущности UserService и Search не включаются в модель, внешних FK между БД нет.
 
-```csharp
-using Infrastructure.Persistence;
+Таблицы: bookings, booking_passengers, booking_routes, booking_flights, booking_items,
+reservations, reservation_passengers, e_tickets, e_ticket_segments, inbox_messages, outbox_messages.
+reservation_passengers хранит соответствие локального пассажира и ID пассажира у поставщика
+отдельно для каждого резерва.
+Ключи — bigint identity; денежные суммы — numeric(18,2); валюты — ISO-коды из трёх букв;
+моменты времени — timestamptz (UTC в .NET); даты рождения/документов — date.
+Точность денег соответствует текущим валютам проекта; валюты с иной точностью требуют изменения модели.
 
-builder.Services.AddBookingPersistence(
-    builder.Configuration.GetConnectionString("BookingDatabase")
-    ?? throw new InvalidOperationException("Connection string 'BookingDatabase' is missing."));
-```
+Составные FK связывают пассажира, позицию, маршрут, резерв и билет внутри одного заказа.
+Удаление связанных записей ограничено RESTRICT. Версия Booking/Reservation — optimistic concurrency token;
+SaveChanges обновляет Version/UpdatedAt. При DbUpdateConcurrencyException обработчик обязан
+перечитать состояние и повторно принять бизнес-решение. Массовые ExecuteUpdate обходят этот механизм.
 
-Store the connection string in user-secrets or environment variables in deployed environments.
-For local development, set `ConnectionStrings:BookingDatabase` to a PostgreSQL connection string.
+Ключ резервирования сохраняется до внешнего запроса. Повтор одного запроса использует тот же ключ.
+После тайм-аута используется Unknown и сверка с поставщиком. Новая самостоятельная попытка — новый ключ.
+Общая цена заказа и подтверждённая цена резерва различаются по смыслу.
+Один билет связан с позицией заказа и может покрывать несколько сегментов своего маршрута.
+Полноту выпуска, истечение резерва, разрешённые переходы статусов и фиксацию снимков
+обеспечивает прикладной процесс; наличие столбцов само по себе этот процесс не реализует.
 
-## Data ownership
+Для внешних событий Inbox хранит пару Source/ExternalMessageId без изменения исходного формата ID.
+Входящее событие и результат обработки должны фиксироваться одной транзакцией.
+Outbox записывается той же транзакцией, что и результат выпуска; отдельный worker доставляет сообщения.
+Обработчики и worker в рамках внедрения слоя хранения не добавлены.
 
-The Booking Service persists its own `Booking`, `ETicket`, and `ETicketSegment` data.
-Entities owned by other microservices (for example, User Service's `Passenger`, or catalog/search services' `Airport`, `Airline`, `Flight`, and `SearchOffer`) are not mapped as EF navigation properties and are not created as tables by this context.
+Регистрация: AddBookingPersistence(connectionString) либо API.AddBookingDatabase(configuration).
+Design-time factory требует BOOKING_DATABASE_CONNECTION_STRING; встроенного пароля нет.
+Не журналировать строку подключения, документы и содержимое сообщений с персональными данными.
 
-External IDs such as `PassengerId`, `FlightId`, `AirlineId`, and airport IDs are scalar values, not foreign keys. The ticket also stores a small snapshot of passenger name and itinerary details so that historical ticket information does not change when external data changes or becomes unavailable. Do not copy passenger documents or other sensitive data unless the booking workflow explicitly requires it.
+## Локальная схема без сборки
 
-## Migrations
+Sql/001_booking_schema.sql создаёт исходную схему только в пустой БД.
+Выполнять через psql с -1 -v ON_ERROR_STOP=1. Проверки Sql/verify_schema.sql запускать
+в BEGIN/ROLLBACK: они используют только фиктивные данные.
 
-The design-time factory reads `BOOKING_DATABASE_CONNECTION_STRING`. Set it before running EF tooling.
-The fallback connection string is for local development only; change it for your local PostgreSQL credentials.
+По запросу пользователя сборка не выполняется. EF-миграции и snapshot будут сгенерированы
+после разрешения сборки и проверки модели. Перед переходом на migrations нужно сравнить
+сгенерированный DDL с уже созданной локальной схемой и подготовить baseline, не создавая таблицы повторно.
+Не использовать EnsureCreated. Начальную EF-миграцию нельзя применять поверх этой схемы без baseline.
 
-```bash
-dotnet tool install --global dotnet-ef --version 8.0.11
-dotnet ef migrations add InitialBookingSchema --project Infrastructure --startup-project Infrastructure --output-dir Persistence/Migrations
-dotnet ef database update --project Infrastructure --startup-project Infrastructure
-```
+## pgAdmin
 
-The migration creates tables for the Booking Service's local persistence model. It does not create the PostgreSQL database itself.
-Do not call `EnsureCreated()` in a migrations-based application.
+Host: 127.0.0.1; Port: 5432; Maintenance database: booking_db; User: booking_owner.
+Пароль доступен только текущему Windows-пользователю из локального DPAPI credential:
+scripts/Local-Postgres.ps1 -Action Credential (возвращает PSCredential).
+Для передачи подключения в будущий HTTP-host и EF tooling из той же PowerShell-сессии:
+`& ./scripts/Local-Postgres.ps1 -Action Configure`. Пароль не печатается и не пишется в Git.
+Сервер не является службой Windows. Для старта после перезагрузки использовать -Action Start.

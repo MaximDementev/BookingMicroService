@@ -14,8 +14,8 @@ namespace Contracts.UserService.V1
 {
     public record GetSelectedPassengersRequest(
     Guid CorrelationId,
-    Guid UserId,
-    List<Guid> PassengerIds
-); // <- ОБЯЗАТЕЛЬНО точка с запятой здесь!
+    long UserId,
+    List<long> PassengerIds
+);
 
 }

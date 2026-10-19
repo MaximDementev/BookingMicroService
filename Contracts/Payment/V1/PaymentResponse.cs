@@ -15,7 +15,7 @@ public sealed record PaymentResponse(
     Guid EventId,
     DateTimeOffset OccurredAt,
     long BookingId,
-    string PaymentId,
+    long PaymentId,
     decimal Amount,
     string Currency,
     DateTimeOffset PaidAt);

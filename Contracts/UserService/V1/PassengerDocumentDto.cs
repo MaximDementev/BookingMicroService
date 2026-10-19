@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Contracts.UserService.V1
 {
     public record PassengerDocumentDto(
-    Guid Id,
+    long Id,
     DocumentTypeDto DocumentType,
     string? SeriesEncrypted,    // Передаем зашифрованные данные, если UserService отвечает за их безопасность
     string NumberEncrypted,

@@ -25,7 +25,8 @@ namespace Domain.Entities
 
         public DateTime? DeletedAt { get; set; }
 
-        public User User { get; set; } = null!;
+        // External profile identifier; this legacy DTO is not mapped by BookingDbContext.
+        public long UserId { get; set; }
         public ICollection<PassengerDocument> Documents { get; set; } = new List<PassengerDocument>();
     }
 }

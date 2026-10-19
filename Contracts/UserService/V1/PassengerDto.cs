@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Contracts.UserService.V1
 {
     public record PassengerDto(
-    Guid Id,
+    long Id,
     string FirstName,
     string LastName,
     string? MiddleName,

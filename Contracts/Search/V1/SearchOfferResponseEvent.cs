@@ -23,7 +23,11 @@ public sealed record SearchOfferDto(
     int PassengersCount,
     PriceDto TotalPrice,
     string Currency,
-    DateTimeOffset? ExpiresAt);
+    DateTimeOffset? ExpiresAt)
+{
+    public long OfferId { get; init; }
+    public string SupplierId { get; init; } = string.Empty;
+}
 
 public sealed record AirlineDto(
     string Code,
@@ -32,7 +36,23 @@ public sealed record AirlineDto(
 public sealed record RouteDto(
     string Origin,
     string Destination,
-    TimeSpan Duration);
+    TimeSpan Duration)
+{
+    public int SequenceNumber { get; init; } = 1;
+    public IReadOnlyList<FlightSegmentDto> Segments { get; init; } = Array.Empty<FlightSegmentDto>();
+}
+
+public sealed record FlightSegmentDto(
+    string ProviderSegmentId,
+    int SequenceNumber,
+    string DepartureAirport,
+    string ArrivalAirport,
+    DateTimeOffset DepartureAt,
+    DateTimeOffset ArrivalAt,
+    string AirlineCode,
+    string FlightNumber,
+    string? AircraftCode,
+    long? SourceFlightId);
 
 public sealed record PriceDto(
     decimal Amount,
